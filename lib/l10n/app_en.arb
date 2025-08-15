@@ -15,5 +15,16 @@
     "skipString": "Skip",
     "@skipString": {},
     "onboarding1Title": "Welcome!",
-    "@onboarding1Title": {}
+    "@onboarding1Title": {},
+
+    "productsString": "Products",
+    "@productsString": {},
+    "changeLanguageString": "Change Language",
+    "@changeLanguageString": {},
+    "settingsString": "Settings",
+    "@settingsString": {},
+    "changeTheme": "Change Theme",
+    "@changeTheme": {}, 
+    "addToCartString": "Add to Cart",
+    "@addToCartString": {}
 }

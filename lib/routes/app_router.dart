@@ -1,5 +1,6 @@
 import 'package:curd_assignment/presentation/onboarding/select_lang_screen.dart';
 import 'package:curd_assignment/presentation/onboarding/splash_screen.dart';
+import 'package:curd_assignment/presentation/products/view/products_list_screen.dart';
 import 'package:curd_assignment/routes/app_routes.dart';
 import 'package:curd_assignment/routes/error_screen.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,14 @@ final GoRouter router = GoRouter(
           ),
         );
       },
+    ),
+    GoRoute(
+      name: productListScreen,
+      path: productListScreen,
+      pageBuilder: (context, state) => slideTransitionPage(
+        key: state.pageKey,
+        child: const ProductListScreen(),
+      ),
     ),
   ],
 );

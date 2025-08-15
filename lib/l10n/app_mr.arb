@@ -11,6 +11,11 @@
     "continueString": "पुढे जा",
     "somethingWentWrongString": "काहीतरी चूक झाली",
     "skipString": "वगळा",
-    "onboarding1Title": "स्वागत आहे!"
+    "onboarding1Title": "स्वागत आहे!",
+    "productsString": "उत्पादने",
+    "changeLanguageString": "भाषा बदला",
+    "settingsString": "सेटिंग्ज",
+    "changeTheme": "थीम बदला",
+    "addToCartString": "कार्टमध्ये जोडा"
    
 }

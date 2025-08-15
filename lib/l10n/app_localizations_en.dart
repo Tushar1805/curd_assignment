@@ -26,4 +26,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding1Title => 'Welcome!';
+
+  @override
+  String get productsString => 'Products';
+
+  @override
+  String get changeLanguageString => 'Change Language';
+
+  @override
+  String get settingsString => 'Settings';
+
+  @override
+  String get changeTheme => 'Change Theme';
+
+  @override
+  String get addToCartString => 'Add to Cart';
 }

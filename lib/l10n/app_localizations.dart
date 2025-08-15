@@ -135,6 +135,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome!'**
   String get onboarding1Title;
+
+  /// No description provided for @productsString.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get productsString;
+
+  /// No description provided for @changeLanguageString.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get changeLanguageString;
+
+  /// No description provided for @settingsString.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsString;
+
+  /// No description provided for @changeTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Theme'**
+  String get changeTheme;
+
+  /// No description provided for @addToCartString.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Cart'**
+  String get addToCartString;
 }
 
 class _AppLocalizationsDelegate

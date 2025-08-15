@@ -8,6 +8,11 @@
     "continueString": "जारी रखें",
     "somethingWentWrongString": "कुछ गलत हो गया",
     "skipString": "छोड़ें",
-    "onboarding1Title": "स्वागत है!"
+    "onboarding1Title": "स्वागत है!",
+    "productsString": " उत्पाद सूची",
+    "changeLanguageString": "भाषा बदलें",
+    "settingsString": "सेटिंग्स",
+    "changeTheme": "थीम बदलें",
+    "addToCartString": "कार्ट में जोड़ें"
    
 }

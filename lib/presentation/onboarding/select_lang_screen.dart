@@ -1,5 +1,6 @@
 import 'package:core/di/service_locator.dart';
 import 'package:core/localization/language_cubit.dart';
+import 'package:curd_assignment/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:curd_assignment/l10n/app_localizations.dart';
@@ -35,7 +36,7 @@ class _SelectLangScreenState extends State<SelectLangScreen> {
       top: false,
       child: Scaffold(
         body: Container(
-          color: whiteColor,
+          color: Theme.of(context).brightness == Brightness.light ? whiteColor : darkBackground,
           padding: EdgeInsets.only(
             left: 20,
             right: 20,
@@ -103,7 +104,7 @@ class _SelectLangScreenState extends State<SelectLangScreen> {
                       borderRadius: 25,
                       alignment: Alignment.center,
                       onPressed: () {
-                        // context.push(onboardingScreen1);
+                        context.pushReplacementNamed(productListScreen);
                       },
                       textPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                       nameSize: 22,

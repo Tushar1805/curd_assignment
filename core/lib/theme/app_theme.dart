@@ -93,20 +93,21 @@ final ThemeData primaryTheme = ThemeData(
 );
 
 final ThemeData darkTheme = ThemeData(
-  scaffoldBackgroundColor: Colors.black38,
+  scaffoldBackgroundColor: darkBackground,
   unselectedWidgetColor: Colors.white,
   appBarTheme: const AppBarTheme(
     titleTextStyle: TextStyle(color: Colors.white),
-    backgroundColor: Colors.black,
+    backgroundColor: splashLightBackground,
   ),
   cardTheme: const CardThemeData(
     //color: cardColor,
-    color: Colors.white,
+    color: splashLightBackground,
   ),
   textSelectionTheme: const TextSelectionThemeData(
     cursorColor: Colors.white,
   ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Colors.black),
+  bottomNavigationBarTheme:
+      const BottomNavigationBarThemeData(backgroundColor: splashLightBackground),
   buttonTheme: ButtonThemeData(
     textTheme: ButtonTextTheme.primary,
     minWidth: double.infinity,

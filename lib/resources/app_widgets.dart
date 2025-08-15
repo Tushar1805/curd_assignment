@@ -51,3 +51,33 @@ class CustomElevatedButton extends StatelessWidget {
     );
   }
 }
+
+class CustomStatusBarWidget extends StatelessWidget {
+  const CustomStatusBarWidget({
+    super.key,
+    required this.title,
+    this.text,
+    this.height,
+    this.titlePositionTop,
+    this.fontSize,
+  });
+  final String? title;
+  final Widget? text;
+  final double? height;
+  final double? titlePositionTop;
+  final double? fontSize;
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      iconTheme: const IconThemeData(color: whiteColor),
+      title: text ??
+          Text(
+            title ?? '',
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: whiteColor,
+                  fontSize: fontSize ?? 24,
+                ),
+          ),
+    );
+  }
+}

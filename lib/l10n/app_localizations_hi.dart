@@ -26,4 +26,19 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get onboarding1Title => 'स्वागत है!';
+
+  @override
+  String get productsString => ' उत्पाद सूची';
+
+  @override
+  String get changeLanguageString => 'भाषा बदलें';
+
+  @override
+  String get settingsString => 'सेटिंग्स';
+
+  @override
+  String get changeTheme => 'थीम बदलें';
+
+  @override
+  String get addToCartString => 'कार्ट में जोड़ें';
 }
