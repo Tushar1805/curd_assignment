@@ -53,4 +53,4 @@ Run the app
 
 # Demo
 
-![demo video](https://github.com/user-attachments/assets/11c45d9d-2787-47ba-9245-7187df3c9318)
+https://github.com/user-attachments/assets/11c45d9d-2787-47ba-9245-7187df3c9318
