@@ -59,4 +59,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checkoutString => 'Checkout';
+
+  @override
+  String get retryString => 'Retry';
 }

@@ -19,6 +19,7 @@
     "cartString": "कार्ट",
     "noItemsString": "कोई आइटम नहीं",
     "totalString": "कुल",
-    "checkoutString": "चेकआउट"
+    "checkoutString": "चेकआउट",
+    "retryString": "पुन: प्रयास करें"
    
 }

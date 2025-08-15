@@ -59,4 +59,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get checkoutString => 'चेकआउट';
+
+  @override
+  String get retryString => 'पुन्हा प्रयत्न करा';
 }

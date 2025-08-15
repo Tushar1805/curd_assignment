@@ -37,5 +37,6 @@
     "totalString": "Total",
     "@totalString": {},
     "checkoutString": "Checkout",
-    "@checkoutString": {}
+    "@checkoutString": {}, 
+    "retryString": "Retry"
 }

@@ -174,6 +174,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
             return const Center(
               child: LoadingWithoutText(),
             );
+          } else if (state is ErrorState) {
+            return Center(
+              child: CustomElevatedButton(
+                name: AppLocalizations.of(context)!.retryString,
+                borderRadius: 8,
+                alignment: Alignment.center,
+                backgroundColor: primaryColor,
+                onPressed: () {
+                  loadProducts();
+                },
+              ),
+            );
           } else {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),

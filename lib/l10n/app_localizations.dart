@@ -201,6 +201,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checkout'**
   String get checkoutString;
+
+  /// No description provided for @retryString.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryString;
 }
 
 class _AppLocalizationsDelegate
