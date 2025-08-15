@@ -1,15 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:core/di/service_locator.dart';
+import 'package:curd_assignment/presentation/products/cubit/products_cubit.dart';
 import 'package:curd_assignment/resources/app_colors.dart';
-import 'package:curd_assignment/resources/app_storage.dart';
 import 'package:curd_assignment/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:curd_assignment/presentation/products/model/products_response_model.dart';
 import 'package:curd_assignment/resources/app_images.dart';
 import 'package:curd_assignment/resources/app_widgets.dart';
 import 'package:curd_assignment/l10n/app_localizations.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -22,6 +22,7 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  final productsCubit = sl<ProductsCubit>();
   bool _isPressed = false;
   bool _isAdded = false;
 
@@ -33,8 +34,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   /// Check if product is already in cart
   Future<void> _checkIfInCart() async {
-    final cartStorage = CartStorage(const FlutterSecureStorage());
-    final items = await cartStorage.getCartItems();
+    final items = await productsCubit.getCartItems();
     final exists = items.any((item) => item.id == widget.product.id);
     if (exists) {
       setState(() {
@@ -45,16 +45,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   /// Add product to cart
   Future<void> addToCart(ProductsResponseModel product) async {
-    final cartStorage = CartStorage(const FlutterSecureStorage());
-    final items = await cartStorage.getCartItems();
+    final items = await productsCubit.getCartItems();
     items.add(product);
-    await cartStorage.saveCartItems(items);
+    await productsCubit.saveCartItems(items);
   }
 
-  /// Handle button click
   void _onAddToCart() async {
     if (_isAdded) {
-      // Already in cart → go to cart
+      // Already in cart, go to cart
       context.pushNamed(cartScreen);
       return;
     }
@@ -74,7 +72,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
 
     // Navigate to cart after short delay
-    await Future.delayed(const Duration(milliseconds: 400));
+    await Future.delayed(const Duration(milliseconds: 500));
     context.pushNamed(cartScreen);
   }
 

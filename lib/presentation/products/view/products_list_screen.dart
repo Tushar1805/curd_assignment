@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/app_widgets.dart';
 import 'package:core/di/service_locator.dart';
@@ -9,13 +11,11 @@ import 'package:curd_assignment/presentation/products/model/products_response_mo
 import 'package:curd_assignment/presentation/products/states/products_states.dart';
 import 'package:curd_assignment/resources/app_colors.dart';
 import 'package:curd_assignment/resources/app_images.dart';
-import 'package:curd_assignment/resources/app_storage.dart';
 import 'package:curd_assignment/resources/app_widgets.dart';
 import 'package:curd_assignment/routes/app_routes.dart';
 import 'package:datasource/states/data_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
@@ -41,8 +41,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   }
 
   Future<void> _checkCartStatus(List<ProductsResponseModel> products) async {
-    final cartStorage = CartStorage(const FlutterSecureStorage());
-    final items = await cartStorage.getCartItems();
+    final items = await productsCubit.getCartItems();
     final ids = items.map((e) => e.id).whereType<int>().toSet();
     setState(() {
       _cartProductIds.clear();
@@ -51,10 +50,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
   }
 
   Future<void> addToCart(ProductsResponseModel product) async {
-    final cartStorage = CartStorage(const FlutterSecureStorage());
-    final items = await cartStorage.getCartItems();
+    final items = await productsCubit.getCartItems();
     items.add(product);
-    await cartStorage.saveCartItems(items);
+    await productsCubit.saveCartItems(items);
   }
 
   void _onAddToCart(ProductsResponseModel product) async {
@@ -79,7 +77,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       _cartProductIds.add(id);
     });
 
-    await Future.delayed(const Duration(milliseconds: 400));
+    await Future.delayed(const Duration(milliseconds: 500));
     context.pushNamed(cartScreen);
   }
 

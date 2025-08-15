@@ -1,11 +1,12 @@
+import 'package:core/app_widgets.dart';
+import 'package:core/di/service_locator.dart';
+import 'package:curd_assignment/presentation/products/cubit/products_cubit.dart';
 import 'package:curd_assignment/resources/app_colors.dart';
-import 'package:curd_assignment/resources/app_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:curd_assignment/resources/app_widgets.dart';
 import 'package:curd_assignment/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:curd_assignment/presentation/products/model/products_response_model.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -15,7 +16,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final cartStorage = CartStorage(const FlutterSecureStorage());
+  final productsCubit = sl<ProductsCubit>();
   List<CartItem> cartItems = [];
 
   @override
@@ -25,14 +26,14 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future<void> _loadCart() async {
-    final items = await cartStorage.getCartItems();
+    final items = await productsCubit.getCartItems();
     setState(() {
       cartItems = items.map((e) => CartItem(product: e, quantity: 1)).toList();
     });
   }
 
   Future<void> _saveCart() async {
-    await cartStorage.saveCartItems(cartItems.map((e) => e.product).toList());
+    await productsCubit.saveCartItems(cartItems.map((e) => e.product).toList());
   }
 
   void _updateQuantity(int index, int change) {
@@ -61,10 +62,8 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       body: cartItems.isEmpty
-          ? Center(
-              child: Text(
-                AppLocalizations.of(context)!.noItemsString,
-              ),
+          ? const Center(
+              child: LoadingWithoutText(),
             )
           : Column(
               children: [
