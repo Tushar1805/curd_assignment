@@ -97,6 +97,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
         preferredSize: Size.fromHeight(size.width * 0.15),
         child: CustomStatusBarWidget(
           title: AppLocalizations.of(context)!.productsString,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: const Icon(Icons.shopping_cart),
+                color: Colors.white,
+                onPressed: () {
+                  context.pushNamed(cartScreen);
+                },
+              ),
+            ),
+          ],
         ),
       ),
       drawer: Drawer(

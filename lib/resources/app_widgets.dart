@@ -60,12 +60,14 @@ class CustomStatusBarWidget extends StatelessWidget {
     this.height,
     this.titlePositionTop,
     this.fontSize,
+    this.actions
   });
   final String? title;
   final Widget? text;
   final double? height;
   final double? titlePositionTop;
   final double? fontSize;
+  final List<Widget>? actions;
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -78,6 +80,7 @@ class CustomStatusBarWidget extends StatelessWidget {
                   fontSize: fontSize ?? 24,
                 ),
           ),
+      actions: actions,
     );
   }
 }
