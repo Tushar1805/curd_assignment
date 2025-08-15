@@ -1,0 +1,60 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        architecture: x64
+
+    - name: Restore app_api_keys.dart
+      run: |
+        if (-not (Test-Path lib\resources)) {
+          mkdir lib\resources
+        }
+        echo $env:API_KEY > lib\resources\app_api_keys.dart
+      shell: pwsh
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
+
+    - name: Build Android APK
+      run: flutter build apk --release --split-per-abi
+
+    # - name: Build iOS IPA
+    #   run: |
+    #     flutter build ios --no-codesign
+    #     cd build/ios/iphoneos
+    #     mkdir Payload
+    #     cd Payload
+    #     ln -s ../Runner.app
+    #     cd ..
+    #     zip -r app.ipa Payload
+    - name: Push to Releases
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
+        tag: v1.0.${{ github.run_number }}
+        token: ${{ secrets.TOKEN }}
