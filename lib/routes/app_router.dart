@@ -1,5 +1,7 @@
 import 'package:curd_assignment/presentation/onboarding/select_lang_screen.dart';
 import 'package:curd_assignment/presentation/onboarding/splash_screen.dart';
+import 'package:curd_assignment/presentation/products/model/products_response_model.dart';
+import 'package:curd_assignment/presentation/products/view/product_details_screen.dart';
 import 'package:curd_assignment/presentation/products/view/products_list_screen.dart';
 import 'package:curd_assignment/routes/app_routes.dart';
 import 'package:curd_assignment/routes/error_screen.dart';
@@ -56,6 +58,19 @@ final GoRouter router = GoRouter(
         key: state.pageKey,
         child: const ProductListScreen(),
       ),
+    ),
+    GoRoute(
+      name: productDetailsScreen,
+      path: productDetailsScreen,
+      pageBuilder: (final context, final state) {
+        final params = state.extra as Map<String, dynamic>?;
+        return slideTransitionPage(
+          key: state.pageKey,
+          child: ProductDetailsScreen(
+            product: params?['product'] as ProductsResponseModel,
+          ),
+        );
+      },
     ),
   ],
 );

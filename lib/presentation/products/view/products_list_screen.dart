@@ -135,53 +135,60 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 itemCount: productsResponse?.length,
                 itemBuilder: (context, index) {
                   final product = productsResponse?[index];
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                            child: CachedNetworkImage(
-                              imageUrl: product?.image ?? sampleNetworkImage,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              errorWidget: (context, url, error) => const Icon(
-                                Icons.broken_image,
-                                color: Colors.grey,
+                  return GestureDetector(
+                    onTap: () {
+                      context.pushNamed(productDetailsScreen, extra: {
+                        "product": product,
+                      });
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                              child: CachedNetworkImage(
+                                imageUrl: product?.image ?? sampleNetworkImage,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                errorWidget: (context, url, error) => const Icon(
+                                  Icons.broken_image,
+                                  color: Colors.grey,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(product?.title ?? '',
-                              style: Theme.of(context).textTheme.bodyMedium),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            "\$${product?.price ?? 0}",
-                            style: Theme.of(context).textTheme.bodyMedium,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(product?.title ?? '',
+                                style: Theme.of(context).textTheme.bodyMedium),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CustomElevatedButton(
-                            name: AppLocalizations.of(context)!.addToCartString,
-                            borderRadius: 8,
-                            alignment: Alignment.center,
-                            onPressed: () {},
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              "\$${product?.price ?? 0}",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CustomElevatedButton(
+                              name: AppLocalizations.of(context)!.addToCartString,
+                              borderRadius: 8,
+                              alignment: Alignment.center,
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

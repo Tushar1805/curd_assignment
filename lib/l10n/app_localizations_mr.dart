@@ -41,4 +41,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get addToCartString => 'कार्टमध्ये जोडा';
+
+  @override
+  String get categoryString => 'श्रेणी';
 }

@@ -6,9 +6,9 @@ final ThemeData primaryTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   // unselectedWidgetColor: Colors.white,
   appBarTheme: const AppBarTheme(
-    titleTextStyle: TextStyle(color: Colors.white),
-    backgroundColor: primaryColor,
-  ),
+      titleTextStyle: TextStyle(color: Colors.white),
+      backgroundColor: primaryColor,
+      iconTheme: IconThemeData(color: Colors.white)),
   cardTheme: const CardThemeData(color: Colors.white),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: Colors.white,
@@ -96,9 +96,9 @@ final ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: darkBackground,
   unselectedWidgetColor: Colors.white,
   appBarTheme: const AppBarTheme(
-    titleTextStyle: TextStyle(color: Colors.white),
-    backgroundColor: splashLightBackground,
-  ),
+      titleTextStyle: TextStyle(color: Colors.white),
+      backgroundColor: splashLightBackground,
+      iconTheme: IconThemeData(color: Colors.white)),
   cardTheme: const CardThemeData(
     //color: cardColor,
     color: splashLightBackground,

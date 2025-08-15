@@ -26,5 +26,7 @@
     "changeTheme": "Change Theme",
     "@changeTheme": {}, 
     "addToCartString": "Add to Cart",
-    "@addToCartString": {}
+    "@addToCartString": {}, 
+    "categoryString": "Category",
+    "@categoryString": {}
 }

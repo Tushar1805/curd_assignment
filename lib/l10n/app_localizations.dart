@@ -165,6 +165,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add to Cart'**
   String get addToCartString;
+
+  /// No description provided for @categoryString.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get categoryString;
 }
 
 class _AppLocalizationsDelegate
