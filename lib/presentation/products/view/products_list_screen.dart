@@ -94,7 +94,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(size.width * 0.15),
+        preferredSize: Size.fromHeight(size.width * 0.12),
         child: CustomStatusBarWidget(
           title: AppLocalizations.of(context)!.productsString,
           actions: [
@@ -197,14 +197,19 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ),
             );
           } else {
+            const crossAxisCount = 2;
+            const crossAxisSpacing = 8.0;
+            final itemWidth =
+                (size.width - ((crossAxisCount - 1) * crossAxisSpacing)) / crossAxisCount;
+            final itemHeight = itemWidth * 1.6;
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
               child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.7,
-                  crossAxisSpacing: 8,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: crossAxisSpacing,
                   mainAxisSpacing: 8,
+                  childAspectRatio: itemWidth / itemHeight,
                 ),
                 itemCount: productsResponse?.length ?? 0,
                 itemBuilder: (context, index) {
@@ -232,7 +237,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                               borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                               child: CachedNetworkImage(
                                 imageUrl: product.image ?? sampleNetworkImage,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                                 width: double.infinity,
                                 placeholder: (context, url) => const Center(
                                   child: CircularProgressIndicator(),
@@ -246,8 +251,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(product.title ?? '',
-                                style: Theme.of(context).textTheme.bodyMedium),
+                            child: Text(
+                              product.title ?? '',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              maxLines: 3,
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),

@@ -75,7 +75,7 @@ class _CartScreenState extends State<CartScreen> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(size.width * 0.15),
+        preferredSize: Size.fromHeight(size.width * 0.12),
         child: CustomStatusBarWidget(
           title: AppLocalizations.of(context)!.cartString,
         ),

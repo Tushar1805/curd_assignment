@@ -18,7 +18,7 @@ Future<void> main() async {
   setupServiceLocator();
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       tools: const [
         ...DevicePreview.defaultTools,
       ],
@@ -89,7 +89,7 @@ class _CurdAssignmentState extends State<CurdAssignment> {
                   builder: (context, child) {
                     return MediaQuery(
                       data:
-                          MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(.9)),
+                          MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(.85)),
                       child: child!,
                     );
                   },
