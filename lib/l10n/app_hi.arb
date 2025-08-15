@@ -1,0 +1,13 @@
+{
+    "@@locale": "hi",
+    "selectLanguage": "अपनी भाषा का चयन करें",
+    "@selectLanguage": {
+        "description": "भाषा चयन हेतु निर्देश"
+    },
+    "selectLanguageDesc": "आपकी चयनित भाषा को सेटिंग्स से किसी भी \nसमय बदला जा सकता है।",
+    "continueString": "जारी रखें",
+    "somethingWentWrongString": "कुछ गलत हो गया",
+    "skipString": "छोड़ें",
+    "onboarding1Title": "स्वागत है!"
+   
+}

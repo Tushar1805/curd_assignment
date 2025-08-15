@@ -1,0 +1,16 @@
+{
+    "@@locale": "mr",
+    "selectLanguage": "आपली भाषा निवडा",
+    "@selectLanguage": {
+        "description": "भाषा निवडण्याच्या सूचना"
+    },
+    "selectLanguageDesc": "आपण निवडलेली भाषा सेटिंग्जमधून\nकधीही बदलू शकता.",
+    "@selectLanguageDesc": {
+        "description": "भाषा कशी बदलायची याबद्दल माहिती"
+    },
+    "continueString": "पुढे जा",
+    "somethingWentWrongString": "काहीतरी चूक झाली",
+    "skipString": "वगळा",
+    "onboarding1Title": "स्वागत आहे!"
+   
+}
