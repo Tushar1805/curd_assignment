@@ -1,6 +1,7 @@
 import 'package:curd_assignment/presentation/onboarding/select_lang_screen.dart';
 import 'package:curd_assignment/presentation/onboarding/splash_screen.dart';
 import 'package:curd_assignment/presentation/products/model/products_response_model.dart';
+import 'package:curd_assignment/presentation/products/view/cart_screen.dart';
 import 'package:curd_assignment/presentation/products/view/product_details_screen.dart';
 import 'package:curd_assignment/presentation/products/view/products_list_screen.dart';
 import 'package:curd_assignment/routes/app_routes.dart';
@@ -71,6 +72,14 @@ final GoRouter router = GoRouter(
           ),
         );
       },
+    ),
+    GoRoute(
+      name: cartScreen,
+      path: cartScreen,
+      pageBuilder: (context, state) => slideTransitionPage(
+        key: state.pageKey,
+        child: const CartScreen(),
+      ),
     ),
   ],
 );

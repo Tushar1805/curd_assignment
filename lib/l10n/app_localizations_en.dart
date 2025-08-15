@@ -43,5 +43,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addToCartString => 'Add to Cart';
 
   @override
+  String get addedToCartString => 'Added to Cart';
+
+  @override
   String get categoryString => 'Category';
+
+  @override
+  String get cartString => 'cart';
+
+  @override
+  String get noItemsString => 'No Items';
+
+  @override
+  String get totalString => 'Total';
+
+  @override
+  String get checkoutString => 'Checkout';
 }

@@ -26,7 +26,16 @@
     "changeTheme": "Change Theme",
     "@changeTheme": {}, 
     "addToCartString": "Add to Cart",
+    "addedToCartString": "Added to Cart",
     "@addToCartString": {}, 
     "categoryString": "Category",
-    "@categoryString": {}
+    "@categoryString": {},
+    "cartString": "cart",
+    "@cartString": {},
+    "noItemsString": "No Items",
+    "@noItemsString": {},
+    "totalString": "Total",
+    "@totalString": {},
+    "checkoutString": "Checkout",
+    "@checkoutString": {}
 }

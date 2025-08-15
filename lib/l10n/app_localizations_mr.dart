@@ -43,5 +43,20 @@ class AppLocalizationsMr extends AppLocalizations {
   String get addToCartString => 'कार्टमध्ये जोडा';
 
   @override
+  String get addedToCartString => 'कार्टमध्ये जोडले';
+
+  @override
   String get categoryString => 'श्रेणी';
+
+  @override
+  String get cartString => 'कार्ट';
+
+  @override
+  String get noItemsString => 'कोणतेही आयटम नाहीत';
+
+  @override
+  String get totalString => 'एकूण';
+
+  @override
+  String get checkoutString => 'चेकआउट';
 }

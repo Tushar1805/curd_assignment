@@ -166,11 +166,41 @@ abstract class AppLocalizations {
   /// **'Add to Cart'**
   String get addToCartString;
 
+  /// No description provided for @addedToCartString.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to Cart'**
+  String get addedToCartString;
+
   /// No description provided for @categoryString.
   ///
   /// In en, this message translates to:
   /// **'Category'**
   String get categoryString;
+
+  /// No description provided for @cartString.
+  ///
+  /// In en, this message translates to:
+  /// **'cart'**
+  String get cartString;
+
+  /// No description provided for @noItemsString.
+  ///
+  /// In en, this message translates to:
+  /// **'No Items'**
+  String get noItemsString;
+
+  /// No description provided for @totalString.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get totalString;
+
+  /// No description provided for @checkoutString.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkoutString;
 }
 
 class _AppLocalizationsDelegate

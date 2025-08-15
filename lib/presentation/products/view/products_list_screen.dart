@@ -9,11 +9,13 @@ import 'package:curd_assignment/presentation/products/model/products_response_mo
 import 'package:curd_assignment/presentation/products/states/products_states.dart';
 import 'package:curd_assignment/resources/app_colors.dart';
 import 'package:curd_assignment/resources/app_images.dart';
+import 'package:curd_assignment/resources/app_storage.dart';
 import 'package:curd_assignment/resources/app_widgets.dart';
 import 'package:curd_assignment/routes/app_routes.dart';
 import 'package:datasource/states/data_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,8 +32,55 @@ class _ProductListScreenState extends State<ProductListScreen> {
   List<ProductsResponseModel>? productsResponse;
   FToast? fToast;
 
+  /// To track cart state for each product
+  final Set<int> _cartProductIds = {};
+  final Set<int> _pressedProductIds = {};
+
   void loadProducts() async {
     await productsCubit.getProducts();
+  }
+
+  Future<void> _checkCartStatus(List<ProductsResponseModel> products) async {
+    final cartStorage = CartStorage(const FlutterSecureStorage());
+    final items = await cartStorage.getCartItems();
+    final ids = items.map((e) => e.id).whereType<int>().toSet();
+    setState(() {
+      _cartProductIds.clear();
+      _cartProductIds.addAll(ids);
+    });
+  }
+
+  Future<void> addToCart(ProductsResponseModel product) async {
+    final cartStorage = CartStorage(const FlutterSecureStorage());
+    final items = await cartStorage.getCartItems();
+    items.add(product);
+    await cartStorage.saveCartItems(items);
+  }
+
+  void _onAddToCart(ProductsResponseModel product) async {
+    final id = product.id ?? -1;
+
+    if (_cartProductIds.contains(id)) {
+      // Already in cart → Go to cart screen
+      context.pushNamed(cartScreen);
+      return;
+    }
+
+    // Press animation
+    setState(() {
+      _pressedProductIds.add(id);
+    });
+
+    await addToCart(product);
+
+    await Future.delayed(const Duration(milliseconds: 150));
+    setState(() {
+      _pressedProductIds.remove(id);
+      _cartProductIds.add(id);
+    });
+
+    await Future.delayed(const Duration(milliseconds: 400));
+    context.pushNamed(cartScreen);
   }
 
   @override
@@ -107,6 +156,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
         listener: (final context, final state) {
           if (state is ProductsLoadedState) {
             productsResponse = state.data as List<ProductsResponseModel>?;
+            if (productsResponse != null) {
+              _checkCartStatus(productsResponse!);
+            }
           } else if (state is ErrorState) {
             showToast(
               gravity: ToastGravity.CENTER,
@@ -132,9 +184,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 8,
                 ),
-                itemCount: productsResponse?.length,
+                itemCount: productsResponse?.length ?? 0,
                 itemBuilder: (context, index) {
-                  final product = productsResponse?[index];
+                  final product = productsResponse![index];
+                  final id = product.id ?? -1;
+                  final isPressed = _pressedProductIds.contains(id);
+                  final isAdded = _cartProductIds.contains(id);
+
                   return GestureDetector(
                     onTap: () {
                       context.pushNamed(productDetailsScreen, extra: {
@@ -153,7 +209,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                             child: ClipRRect(
                               borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                               child: CachedNetworkImage(
-                                imageUrl: product?.image ?? sampleNetworkImage,
+                                imageUrl: product.image ?? sampleNetworkImage,
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                                 placeholder: (context, url) => const Center(
@@ -168,23 +224,35 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(product?.title ?? '',
+                            child: Text(product.title ?? '',
                                 style: Theme.of(context).textTheme.bodyMedium),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              "\$${product?.price ?? 0}",
+                              "\$${product.price ?? 0}",
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: CustomElevatedButton(
-                              name: AppLocalizations.of(context)!.addToCartString,
-                              borderRadius: 8,
-                              alignment: Alignment.center,
-                              onPressed: () {},
+                            child: AnimatedScale(
+                              scale: isPressed ? 0.95 : 1.0,
+                              duration: const Duration(milliseconds: 150),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                                child: CustomElevatedButton(
+                                  name: isAdded
+                                      ? AppLocalizations.of(context)!.addedToCartString
+                                      : AppLocalizations.of(context)!.addToCartString,
+                                  borderRadius: 8,
+                                  alignment: Alignment.center,
+                                  backgroundColor:
+                                      isAdded ? Colors.green : Theme.of(context).primaryColor,
+                                  onPressed: () => _onAddToCart(product),
+                                ),
+                              ),
                             ),
                           ),
                         ],

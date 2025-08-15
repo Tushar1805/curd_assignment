@@ -1,10 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:curd_assignment/resources/app_colors.dart';
+import 'package:curd_assignment/resources/app_storage.dart';
+import 'package:curd_assignment/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:curd_assignment/presentation/products/model/products_response_model.dart';
 import 'package:curd_assignment/resources/app_images.dart';
 import 'package:curd_assignment/resources/app_widgets.dart';
 import 'package:curd_assignment/l10n/app_localizations.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final ProductsResponseModel product;
@@ -16,6 +22,62 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  bool _isPressed = false;
+  bool _isAdded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfInCart();
+  }
+
+  /// Check if product is already in cart
+  Future<void> _checkIfInCart() async {
+    final cartStorage = CartStorage(const FlutterSecureStorage());
+    final items = await cartStorage.getCartItems();
+    final exists = items.any((item) => item.id == widget.product.id);
+    if (exists) {
+      setState(() {
+        _isAdded = true;
+      });
+    }
+  }
+
+  /// Add product to cart
+  Future<void> addToCart(ProductsResponseModel product) async {
+    final cartStorage = CartStorage(const FlutterSecureStorage());
+    final items = await cartStorage.getCartItems();
+    items.add(product);
+    await cartStorage.saveCartItems(items);
+  }
+
+  /// Handle button click
+  void _onAddToCart() async {
+    if (_isAdded) {
+      // Already in cart → go to cart
+      context.pushNamed(cartScreen);
+      return;
+    }
+
+    // Button press animation
+    setState(() {
+      _isPressed = true;
+    });
+
+    await addToCart(widget.product);
+
+    // Release animation
+    await Future.delayed(const Duration(milliseconds: 150));
+    setState(() {
+      _isPressed = false;
+      _isAdded = true;
+    });
+
+    // Navigate to cart after short delay
+    await Future.delayed(const Duration(milliseconds: 400));
+    context.pushNamed(cartScreen);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -33,6 +95,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// Product Image
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: CachedNetworkImage(
@@ -49,14 +112,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Title
+            /// Title
             Text(
               widget.product.title ?? '',
               style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
 
-            // Price
+            /// Price
             Text(
               "\$${widget.product.price?.toStringAsFixed(2) ?? '0.00'}",
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -66,14 +129,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             const SizedBox(height: 8),
 
-            // Category
+            /// Category
             Text(
               "${AppLocalizations.of(context)!.categoryString}: ${widget.product.category ?? ''}",
               style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey),
             ),
             const SizedBox(height: 8),
 
-            // Rating
+            /// Rating
             Row(
               children: [
                 const Icon(Icons.star, color: Colors.orange, size: 20),
@@ -86,7 +149,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Description
+            /// Description
             Text(
               widget.product.description ?? '',
               style: theme.textTheme.bodyMedium,
@@ -95,14 +158,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
             const Spacer(),
 
-            // Add to cart button
-            CustomElevatedButton(
-              name: AppLocalizations.of(context)!.addToCartString,
-              borderRadius: 8,
-              alignment: Alignment.center,
-              onPressed: () {
-                // TODO: Implement add to cart logic
-              },
+            /// Add to Cart Button with Animation
+            AnimatedScale(
+              scale: _isPressed ? 0.95 : 1.0,
+              duration: const Duration(milliseconds: 150),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                child: CustomElevatedButton(
+                  name: _isAdded
+                      ? AppLocalizations.of(context)!.addedToCartString
+                      : AppLocalizations.of(context)!.addToCartString,
+                  borderRadius: 8,
+                  alignment: Alignment.center,
+                  backgroundColor: _isAdded ? Colors.green : theme.primaryColor,
+                  onPressed: _onAddToCart,
+                ),
+              ),
             ),
 
             SizedBox(height: size.width * 0.2),

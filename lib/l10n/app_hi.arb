@@ -14,6 +14,11 @@
     "settingsString": "सेटिंग्स",
     "changeTheme": "थीम बदलें",
     "addToCartString": "कार्ट में जोड़ें",
-    "categoryString": "श्रेणी"
+    "addedToCartString": "कार्ट में जोड़ा गया",
+    "categoryString": "श्रेणी",
+    "cartString": "कार्ट",
+    "noItemsString": "कोई आइटम नहीं",
+    "totalString": "कुल",
+    "checkoutString": "चेकआउट"
    
 }
