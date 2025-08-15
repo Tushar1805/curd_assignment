@@ -37,8 +37,6 @@ The MVVM + Bloc Cubit approach was chosen because:
 | **connectivity\_plus**       | Network status checking | Detects changes in network connectivity to handle offline/online states gracefully.                                         |
 | **flutter\_screenutil**      | Responsive UI           | Helps adapt UI elements proportionally across different screen sizes and resolutions for consistent design.                 |
 
-                                                                  |
-
 ## 🚀 How to Run
 
 use flutter sdk `3.32.7`
