@@ -26,11 +26,13 @@ class ProductListScreen extends StatefulWidget {
   State<ProductListScreen> createState() => _ProductListScreenState();
 }
 
-class _ProductListScreenState extends State<ProductListScreen> {
+class _ProductListScreenState extends State<ProductListScreen> with TickerProviderStateMixin {
   final productsCubit = sl<ProductsCubit>();
   final themeCubit = sl<ThemeCubit>();
   List<ProductsResponseModel>? productsResponse;
   FToast? fToast;
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
 
   /// To track cart state for each product
   final Set<int> _cartProductIds = {};
@@ -86,6 +88,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
     fToast = FToast();
     fToast!.init(context);
     loadProducts();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 500,
+      ),
+    );
+
+    _scaleAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeInExpo);
     super.initState();
   }
 
@@ -169,6 +180,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
             if (productsResponse != null) {
               _checkCartStatus(productsResponse!);
             }
+            _animationController.forward(from: 0);
           } else if (state is ErrorState) {
             showToast(
               gravity: ToastGravity.CENTER,
@@ -218,74 +230,77 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   final isPressed = _pressedProductIds.contains(id);
                   final isAdded = _cartProductIds.contains(id);
 
-                  return GestureDetector(
-                    onTap: () {
-                      context.pushNamed(productDetailsScreen, extra: {
-                        "product": product,
-                      });
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 4,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                              child: CachedNetworkImage(
-                                imageUrl: product.image ?? sampleNetworkImage,
-                                fit: BoxFit.fill,
-                                width: double.infinity,
-                                placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                                errorWidget: (context, url, error) => const Icon(
-                                  Icons.broken_image,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              product.title ?? '',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(
-                              "\$${product.price ?? 0}",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: AnimatedScale(
-                              scale: isPressed ? 0.95 : 1.0,
-                              duration: const Duration(milliseconds: 150),
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                                child: CustomElevatedButton(
-                                  name: isAdded
-                                      ? AppLocalizations.of(context)!.addedToCartString
-                                      : AppLocalizations.of(context)!.addToCartString,
-                                  borderRadius: 8,
-                                  alignment: Alignment.center,
-                                  backgroundColor:
-                                      isAdded ? Colors.green : Theme.of(context).primaryColor,
-                                  onPressed: () => _onAddToCart(product),
+                  return ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: GestureDetector(
+                      onTap: () {
+                        context.pushNamed(productDetailsScreen, extra: {
+                          "product": product,
+                        });
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                                child: CachedNetworkImage(
+                                  imageUrl: product.image ?? sampleNetworkImage,
+                                  fit: BoxFit.fill,
+                                  width: double.infinity,
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) => const Icon(
+                                    Icons.broken_image,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                product.title ?? '',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                maxLines: 3,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                "\$${product.price ?? 0}",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AnimatedScale(
+                                scale: isPressed ? 0.95 : 1.0,
+                                duration: const Duration(milliseconds: 150),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                  child: CustomElevatedButton(
+                                    name: isAdded
+                                        ? AppLocalizations.of(context)!.addedToCartString
+                                        : AppLocalizations.of(context)!.addToCartString,
+                                    borderRadius: 8,
+                                    alignment: Alignment.center,
+                                    backgroundColor:
+                                        isAdded ? Colors.green : Theme.of(context).primaryColor,
+                                    onPressed: () => _onAddToCart(product),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
